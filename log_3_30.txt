@@ -1,0 +1,87 @@
+(v3.30.0) koch@DESKTOP:/work$ hailo parser onnx --hw-arch hailo8l ../../vgg16_Opset18.onnx
+[info] Current Time: 11:39:16, 08/13/25
+[info] CPU: Architecture: x86_64, Model: 11th Gen Intel(R) Core(TM) i7-11700KF @ 3.60GHz, Number Of Cores: 16, Utilization: 0.0%
+[info] Memory: Total: 31GB, Available: 30GB
+[info] System info: OS: Linux, Kernel: 6.6.87.2-microsoft-standard-WSL2
+[info] Hailo DFC Version: 3.30.0
+[info] HailoRT Version: Not Installed
+[info] PCIe: No Hailo PCIe device was found
+[info] Running `hailo parser onnx --hw-arch hailo8l ../../vgg16_Opset18.onnx`
+[info] Translation started on ONNX model vgg16_Opset18
+[info] Restored ONNX model vgg16_Opset18 (completion time: 00:00:14.60)
+[info] Extracted ONNXRuntime meta-data for Hailo model (completion time: 00:00:22.23)
+[info] Start nodes mapped from original model: 'x': 'vgg16_Opset18/input_layer1'.
+[info] End nodes mapped from original model: '/classifier/classifier.6/Gemm'.
+[info] Translation completed on ONNX model vgg16_Opset18 (completion time: 00:00:24.67)
+[info] Saved HAR to: /work/vgg16_Opset18.har
+
+(v3.30.0) koch@DESKTOP:/work$ hailo optimize --hw-arch hailo8l --use-random-calib-set vgg16_Opset18.har
+[info] Current Time: 11:42:06, 08/13/25
+[info] CPU: Architecture: x86_64, Model: 11th Gen Intel(R) Core(TM) i7-11700KF @ 3.60GHz, Number Of Cores: 16, Utilization: 0.1%
+[info] Memory: Total: 31GB, Available: 30GB
+[info] System info: OS: Linux, Kernel: 6.6.87.2-microsoft-standard-WSL2
+[info] Hailo DFC Version: 3.30.0
+[info] HailoRT Version: Not Installed
+[info] PCIe: No Hailo PCIe device was found
+[info] Running `hailo optimize --hw-arch hailo8l --use-random-calib-set vgg16_Opset18.har`
+[info] Found model with 3 input channels, using real RGB images for calibration instead of sampling random data.
+[info] Starting Model Optimization
+[warning] Reducing optimization level to 0 (the accuracy won't be optimized and compression won't be used) because there's no available GPU
+[warning] Running model optimization with zero level of optimization is not recommended for production use and might lead to suboptimal accuracy results
+[info] Model received quantization params from the hn
+[info] MatmulDecompose skipped
+[info] Starting Mixed Precision
+[info] Model Optimization Algorithm Mixed Precision is done (completion time is 00:00:00.11)
+[info] LayerNorm Decomposition skipped
+[info] Starting Statistics Collector
+[info] Using dataset with 64 entries for calibration
+Calibration: 100%|███...███| 64/64 [00:32<00:00,  1.99entries/s]
+[info] Model Optimization Algorithm Statistics Collector is done (completion time is 00:00:33.77)
+[info] Starting Fix zp_comp Encoding
+[info] Model Optimization Algorithm Fix zp_comp Encoding is done (completion time is 00:00:00.00)
+[info] Matmul Equalization skipped
+[info] No shifts available for layer vgg16_Opset18/conv13/conv_op, using max shift instead. delta=0.5329
+[info] No shifts available for layer vgg16_Opset18/conv13/conv_op, using max shift instead. delta=0.2664
+[info] No shifts available for layer vgg16_Opset18/fc1/conv_op, using max shift instead. delta=1.4097
+[info] No shifts available for layer vgg16_Opset18/fc1/conv_op, using max shift instead. delta=0.7049
+[info] No shifts available for layer vgg16_Opset18/conv13/conv_op, using max shift instead. delta=0.2664
+[info] No shifts available for layer vgg16_Opset18/fc2/conv_op, using max shift instead. delta=1.4663
+[info] No shifts available for layer vgg16_Opset18/fc2/conv_op, using max shift instead. delta=0.7331
+[info] No shifts available for layer vgg16_Opset18/fc1/conv_op, using max shift instead. delta=0.7049
+[info] No shifts available for layer vgg16_Opset18/fc3/conv_op, using max shift instead. delta=1.3297
+[info] No shifts available for layer vgg16_Opset18/fc3/conv_op, using max shift instead. delta=0.6649
+[info] No shifts available for layer vgg16_Opset18/fc2/conv_op, using max shift instead. delta=0.7331
+[info] Finetune encoding skipped
+[info] Bias Correction skipped
+[info] Adaround skipped
+[info] Quantization-Aware Fine-Tuning skipped
+[info] Layer Noise Analysis skipped
+[info] The calibration set seems to not be normalized, because the values range is [(0.0, 1.0), (0.0, 1.0), (0.0, 1.0)].
+Since the neural core works in 8-bit (between 0 to 255), a quantization will occur on the CPU of the runtime platform.
+Add a normalization layer to the model to offload the normalization to the neural core.
+Refer to the user guide Hailo Dataflow Compiler user guide / Model Optimization / Optimization Related Model Script Commands / model_modification_commands / normalization for details.
+[info] Model Optimization is done
+[info] Saved HAR to: /work/vgg16_Opset18_optimized.har
+
+(v3.30.0) koch@DESKTOP:/work$ hailo compiler --hw-arch hailo8l vgg16_Opset18_optimized.har
+[info] Current Time: 11:46:47, 08/13/25
+[info] CPU: Architecture: x86_64, Model: 11th Gen Intel(R) Core(TM) i7-11700KF @ 3.60GHz, Number Of Cores: 16, Utilization: 0.0%
+[info] Memory: Total: 31GB, Available: 30GB
+[info] System info: OS: Linux, Kernel: 6.6.87.2-microsoft-standard-WSL2
+[info] Hailo DFC Version: 3.30.0
+[info] HailoRT Version: Not Installed
+[info] PCIe: No Hailo PCIe device was found
+[info] Running `hailo compiler --hw-arch hailo8l vgg16_Opset18_optimized.har`
+[info] Compiling network
+[info] To achieve optimal performance, set the compiler_optimization_level to "max" by adding performance_param(compiler_optimization_level=max) to the model script. Note that this may increase compilation time.
+[info] Loading network parameters
+[info] Starting Hailo allocation and compilation flow
+[info] Finding the best partition to contexts...
+[...........................<==>.........] Elapsed: 00:42:51
+[error] Mapping Failed (Timeout, allocation time: 1h 0m 19s)
+Compiler could not find a valid partition to contexts. Most common error is: Automri finished with too many resources on context_3 with 119/1662 failures.
+Mapping Failed (Timeout, allocation time: 1h 0m 19s)
+
+[error] Failed to produce compiled graph
+[error] BackendAllocatorException: Compilation failed: Compiler could not find a valid partition to contexts. Most common error is: Automri finished with too many resources on context_3 with 119/1662 failures.
+Mapping Failed (Timeout, allocation time: 1h 0m 19s)
