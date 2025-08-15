@@ -1,0 +1,51 @@
+ONNX to HEF（スクリプトによる）
+
+いずれも、Parse, Optimize ではエラーなし（ただし、ツールが推奨する end node を選択）
+いずれも、Compile でエラー
+
+hailo version: v3.30.0
+RAM 64 GB
+
+1. yolov8x.onnx
+2. vgg16_Opset16.onnx
+
+yolov8x.onnx
+
+```
+==================================================== Compile
+[info] To achieve optimal performance, set the compiler_optimization_level to "max" by adding performance_param(compiler_optimization_level=max) to the model script. Note that this may increase compilation time.
+[info] Loading network parameters
+[info] Starting Hailo allocation and compilation flow
+[warning] REQUIRED_FPS is not currently supported for multi context, reverting to MAX_FPS
+[error] Mapping Failed (allocation time: 45s)
+No successful assignments: concat17 errors:
+        Agent infeasible by resources sanity.: Memory units capacity exceeded (available: 128, required: 150).
+
+
+
+[error] Failed to produce compiled graph
+[error] BackendAllocatorException: Compilation failed: No successful assignments: concat17 errors:
+        Agent infeasible by resources sanity.: Memory units capacity exceeded (available: 128, required: 150).
+```
+
+vgg16_Opset16.onnx
+
+```
+==================================================== Compile
+[info] To achieve optimal performance, set the compiler_optimization_level to "max" by adding performance_param(compiler_optimization_level=max) to the model script. Note that this may increase compilation time.
+[info] Loading network parameters
+[info] Starting Hailo allocation and compilation flow
+[error] Failed to reach fps on following nodes:
+fc1 max reached fps: 0 required_fps: 30
+```
+
+
+ONNX to HEF（ツールによる）
+
+いずれも、コンパイルができました。
+hailo version: v3.30.0
+RAM 64 GB
+
+1. yolov8m.onnx
+2. yolov8x.onnx
+
