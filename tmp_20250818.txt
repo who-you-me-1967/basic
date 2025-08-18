@@ -1,0 +1,36 @@
+(v3.30.0) koichi@DESKTOP-QL1VD1I:/mnt/f/hailo/wsl/dfc/py$ python t_dfc_script.py
+[/mnt/f/hailo/wsl/dfc/yolov3-10.onnx] (start, end)=(input_1, yolonms_layer_1/concat_2:0) (w, h)=(640, 640)
+==================================================== Parsing
+[info] Translation started on ONNX model model_xxx
+[info] Restored ONNX model model_xxx (completion time: 00:00:06.09)
+[info] Extracted ONNXRuntime meta-data for Hailo model (completion time: 00:00:06.09)
+[warning] ONNX shape inference failed: [ONNXRuntimeError] : 2 : INVALID_ARGUMENT : Invalid model. Node input 'image_shape' is not a graph input, initializer, or output of a previous node.
+[info] Unable to simplify the model:
+Traceback (most recent call last):
+  File "/mnt/f/hailo/wsl/dfc/py/t_dfc_script.py", line 52, in <module>
+    hn, npz = runner.translate_onnx_model(onnx_path, model_name, start_node_names=[start_node], end_node_names=end_node, net_input_shapes=input_shape)
+  File "/mnt/f/hailo/wsl/dfc/v3.30.0/lib/python3.10/site-packages/hailo_sdk_common/states/states.py", line 16, in wrapped_func
+    return func(self, *args, **kwargs)
+  File "/mnt/f/hailo/wsl/dfc/v3.30.0/lib/python3.10/site-packages/hailo_sdk_client/runner/client_runner.py", line 1177, in translate_onnx_model
+    parser.translate_onnx_model(
+  File "/mnt/f/hailo/wsl/dfc/v3.30.0/lib/python3.10/site-packages/hailo_sdk_client/sdk_backend/parser/parser.py", line 262, in translate_onnx_model
+    raise e from None
+  File "/mnt/f/hailo/wsl/dfc/v3.30.0/lib/python3.10/site-packages/hailo_sdk_client/sdk_backend/parser/parser.py", line 239, in translate_onnx_model
+    parsing_results = self._parse_onnx_model_to_hn(
+  File "/mnt/f/hailo/wsl/dfc/v3.30.0/lib/python3.10/site-packages/hailo_sdk_client/sdk_backend/parser/parser.py", line 320, in _parse_onnx_model_to_hn
+    return self.parse_model_to_hn(
+  File "/mnt/f/hailo/wsl/dfc/v3.30.0/lib/python3.10/site-packages/hailo_sdk_client/sdk_backend/parser/parser.py", line 371, in parse_model_to_hn
+    fuser = HailoNNFuser(converter.convert_model(), net_name, converter.end_node_names)
+  File "/mnt/f/hailo/wsl/dfc/v3.30.0/lib/python3.10/site-packages/hailo_sdk_client/model_translator/translator.py", line 83, in convert_model
+    self._create_layers()
+  File "/mnt/f/hailo/wsl/dfc/v3.30.0/lib/python3.10/site-packages/hailo_sdk_client/model_translator/edge_nn_translator.py", line 38, in _create_layers
+    self._update_vertices_info()
+  File "/mnt/f/hailo/wsl/dfc/v3.30.0/lib/python3.10/site-packages/hailo_sdk_client/model_translator/onnx_translator/onnx_translator.py", line 316, in _update_vertices_info
+    node.update_output_format()
+  File "/mnt/f/hailo/wsl/dfc/v3.30.0/lib/python3.10/site-packages/hailo_sdk_client/model_translator/onnx_translator/onnx_graph.py", line 484, in update_output_format
+    if self.is_spatial_flatten_reshape():
+  File "/mnt/f/hailo/wsl/dfc/v3.30.0/lib/python3.10/site-packages/hailo_sdk_client/model_translator/onnx_translator/onnx_graph.py", line 3330, in is_spatial_flatten_reshape
+    if self._is_spatial_flatten_with_features_to_heads_reshape():
+  File "/mnt/f/hailo/wsl/dfc/v3.30.0/lib/python3.10/site-packages/hailo_sdk_client/model_translator/onnx_translator/onnx_graph.py", line 3368, in _is_spatial_flatten_with_features_to_heads_reshape
+    pred = next(iter(self.graph.predecessors(self)))
+StopIteration
